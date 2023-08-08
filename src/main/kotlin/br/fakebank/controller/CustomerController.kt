@@ -16,9 +16,10 @@ import reactor.core.publisher.Mono
 class CustomerController(val customerService: CustomerService) {
 
     @GetMapping("/v1")
-    fun getAllCustomers(): Mono<MutableList<CustomerData>> {
+    fun getAllCustomers(): Flux<CustomerData> {
         return customerService.getAllCustomers()
-            .collectList()
+
+
             }
     @PostMapping("/v1")
 fun createCustomer(@RequestBody customer: CustomerData): ResponseEntity<Any> {

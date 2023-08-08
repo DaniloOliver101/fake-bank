@@ -4,6 +4,7 @@ def create_customer():
     url = 'http://localhost:8080/customer/v1'
     headers = {'Content-Type': 'application/json'}
     data = {
+        "id":   1,
         "name": "Novo Cliente",
         "cpf": "42545902888"
     }
