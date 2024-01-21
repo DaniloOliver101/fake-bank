@@ -1,38 +1,54 @@
 package br.fakebank.service
 
-import br.fakebank.exception.ValidateException
+
+import br.fakebank.model.CustomerData
 import br.fakebank.repository.CustomerRepository
+import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.dao.DataAccessException
 import org.springframework.http.HttpStatus
 import org.springframework.stereotype.Service
 import reactor.core.publisher.Flux
-import br.fakebank.model.CustomerData
 
 @Service
-class CustomerService(val customerRepository: CustomerRepository) {
-    fun getAllCustomers(): Flux<CustomerData> {
-        return try {
-            customerRepository.findAll()
-        } catch (ex: DataAccessException) {
-            // Tratar a exceção de acesso a dados (DataAccessException) aqui
-            // Pode ser um erro de conexão com o banco de dados ou consulta inválida
-            // Logar a exceção ou retornar uma mensagem de erro apropriada
-            // Exemplo de log: ex.printStackTrace()
-            Flux.error(ex) // ou outro comportamento adequado em caso de erro
+class CustomerService(
+    @Autowired
+    val customerRepository: CustomerRepository
+) {
+
+    fun create(customerData: CustomerData) {
+
+        customerRepository.save(customerData).subscribe { savedCustomerData ->
+            println("CustomerData salvo com sucesso: $savedCustomerData")
         }
     }
-    fun create(customerData: CustomerData) {
-        print(customerData.name)
-        print(customerData.cpf)
-        customerRepository.save(customerData)
-        print("Novo registro de customer")
+
+    fun getAllCustomers(): Flux<CustomerData> {
+
+            return customerRepository.findAll()
+                .onErrorMap(DataAccessException::class.java) {
+                    ValidateException(buildString {
+        append("Erro ao buscar todos os clientes")
+    }, HttpStatus.INTERNAL_SERVER_ERROR)
+                }
+
+}
+
+    private fun ValidateException(httpStatusCode: String, message: HttpStatus): Throwable? {
+        //imprimir os parametros
+        return null
     }
 
-    private fun isValidCpf(cpf: String): Boolean {
-        return cpf.length == 11
+    fun update(customer: CustomerData) {
+
     }
 
-    private fun isValidName(name: String?): Boolean {
-        return !name.isNullOrBlank()
+    fun deleteCustomerById(id: String) {
+customerRepository.deleteById(id)
+        .onErrorMap(DataAccessException::class.java) {
+            ValidateException(buildString {
+                append("Erro ao deletar o cliente com id: $id")
+            }, HttpStatus.INTERNAL_SERVER_ERROR)
+        }
+        customerRepository.deleteById(id).subscribe()
     }
 }

@@ -1,12 +1,25 @@
+
+import random
 import requests
 
+def gerarCpf(pontos=True):
+    cpf = ''
+    for i in range(11):
+        cpf += str(random.randint(0,9))
+    if pontos:
+        cpf = cpf[:3] + '.' + cpf[3:6] + '.' + cpf[6:9] + '-' + cpf[9:]
+    return cpf
+
+
 def create_customer():
+
     url = 'http://localhost:8080/customer/v1'
     headers = {'Content-Type': 'application/json'}
     data = {
-        "id":   1,
+        
+
         "name": "Novo Cliente",
-        "cpf": "42545902888"
+        "cpf": gerarCpf()
     }
 
     try:

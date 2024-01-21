@@ -1,4 +1,4 @@
-package br.fakebank.controller
+package br.fakebank.api.controller
 
 import br.fakebank.model.CustomerData
 import br.fakebank.repository.CustomerRepository

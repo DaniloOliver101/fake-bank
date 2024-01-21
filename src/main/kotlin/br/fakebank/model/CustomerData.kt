@@ -7,8 +7,9 @@ import org.springframework.data.annotation.Id
 @Document(  collection = "customer")
 data class CustomerData
     (
+        
     @Id
-    val id : Long? = null,
+    var id : String? = null,
     val name: String,
     val cpf: String
     )
