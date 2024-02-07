@@ -1,4 +1,4 @@
-package br.fakebank.model
+package br.fakebank.api.model
 
 data class AccountData
     (

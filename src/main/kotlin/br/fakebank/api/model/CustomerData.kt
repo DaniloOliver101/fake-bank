@@ -1,4 +1,4 @@
-package br.fakebank.model
+package br.fakebank.api.model
 
 import org.springframework.data.mongodb.core.mapping.Document
 import org.springframework.data.annotation.Id

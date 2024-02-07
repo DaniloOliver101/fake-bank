@@ -1,7 +1,8 @@
 package br.fakebank.api.controller
 
-import br.fakebank.model.CustomerData
-import br.fakebank.service.CustomerService
+import br.fakebank.api.model.CustomerData
+import br.fakebank.api.service.CustomerService
+import br.fakebank.mainframe.service.MainframeService
 import org.springframework.web.bind.annotation.*
 import reactor.core.publisher.Flux
 import org.springframework.http.ResponseEntity as ResponseEntity1
@@ -9,7 +10,8 @@ import org.springframework.http.ResponseEntity as ResponseEntity1
 
 @RestController
 @RequestMapping("/customer")
-class CustomerController(val customerService: CustomerService) {
+class CustomerController(val customerService: CustomerService,
+val mainframeService: MainframeService) {
 
     @DeleteMapping("/v1/{id}")
     fun deleteCustomerById(
@@ -28,6 +30,8 @@ class CustomerController(val customerService: CustomerService) {
 
     @GetMapping("/v1")
     fun getAllCustomers(): Flux<CustomerData> {
+        val response = mainframeService.sendMainframeRequest()
+        println(response)
         return customerService.getAllCustomers()
 
 

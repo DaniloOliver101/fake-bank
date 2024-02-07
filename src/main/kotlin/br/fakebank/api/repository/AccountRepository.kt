@@ -1,10 +1,10 @@
-package br.fakebank.repository
+package br.fakebank.api.repository
 
-import br.fakebank.model.CustomerData
+import br.fakebank.api.model.AccountData
 import org.springframework.data.mongodb.repository.ReactiveMongoRepository
 import org.springframework.stereotype.Repository
 
 @Repository
-interface CustomerRepository : ReactiveMongoRepository<CustomerData, String> {
+interface AccountRepository : ReactiveMongoRepository<AccountData, String> {
     // Os outros métodos da interface continuam aqui...
 }

@@ -1,4 +1,4 @@
-package br.fakebank.configuration
+package br.fakebank.api.configuration
 
 import retrofit2.Retrofit
 import retrofit2.converter.jackson.JacksonConverterFactory

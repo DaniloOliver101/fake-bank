@@ -1,21 +1,24 @@
-package br.fakebank.service
+package br.fakebank.api.service
 
 
-import br.fakebank.model.CustomerData
-import br.fakebank.repository.CustomerRepository
-import org.springframework.beans.factory.annotation.Autowired
+import br.fakebank.api.model.CustomerData
+import br.fakebank.api.repository.CustomerRepository
 import org.springframework.dao.DataAccessException
-import org.springframework.http.HttpStatus
 import org.springframework.stereotype.Service
 import reactor.core.publisher.Flux
 
 @Service
 class CustomerService(
-    @Autowired
+
     val customerRepository: CustomerRepository
 ) {
 
     fun create(customerData: CustomerData) {
+
+
+
+
+
 
         customerRepository.save(customerData).subscribe { savedCustomerData ->
             println("CustomerData salvo com sucesso: $savedCustomerData")
@@ -26,17 +29,10 @@ class CustomerService(
 
             return customerRepository.findAll()
                 .onErrorMap(DataAccessException::class.java) {
-                    ValidateException(buildString {
-        append("Erro ao buscar todos os clientes")
-    }, HttpStatus.INTERNAL_SERVER_ERROR)
+                    ValidateException
                 }
 
 }
-
-    private fun ValidateException(httpStatusCode: String, message: HttpStatus): Throwable? {
-        //imprimir os parametros
-        return null
-    }
 
     fun update(customer: CustomerData) {
 
@@ -45,10 +41,14 @@ class CustomerService(
     fun deleteCustomerById(id: String) {
 customerRepository.deleteById(id)
         .onErrorMap(DataAccessException::class.java) {
-            ValidateException(buildString {
-                append("Erro ao deletar o cliente com id: $id")
-            }, HttpStatus.INTERNAL_SERVER_ERROR)
+            ValidateException
         }
         customerRepository.deleteById(id).subscribe()
     }
 }
+
+private val ValidateException: Throwable?
+    get() {
+
+        return null
+    }

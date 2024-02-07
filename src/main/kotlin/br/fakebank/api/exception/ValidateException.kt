@@ -1,4 +1,4 @@
-package br.fakebank.exception
+package br.fakebank.api.exception
 
 import org.springframework.http.HttpStatus
 import kotlin.RuntimeException

@@ -1,10 +1,10 @@
-package br.fakebank.service
+package br.fakebank.api.service
 
-import br.fakebank.model.CustomerData
+import br.fakebank.api.model.CustomerData
 import org.springframework.stereotype.Service
 
 @Service
-class TransactionService {
+class AccountService {
     fun create(customer : CustomerData){
         validateCPf("12345678901")
         validateName("Danilo")
